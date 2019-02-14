@@ -18,6 +18,7 @@ function cerrarSesion(){
   $("#login").show();
   $("#contenido").hide();
   $(".contenidoUsu").hide();
+  fn.load('home.html');
 };
 
 function verificoNumerico(){ 
