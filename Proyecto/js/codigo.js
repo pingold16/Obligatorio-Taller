@@ -1,3 +1,5 @@
+var db = window.openDatabase("Obligatorio", 1.0, "Obligatorio taller", 1024*1024*3);
+
 window.fn = {};
 
 window.fn.open = function() {
@@ -23,7 +25,7 @@ function cerrarSesion(){
 
 function verificoNumerico(){ 
   var n = $("#telefono").val();
-  if (n != 	/^09[0-9]{7}$/){
+  if (n != 	/^09[0-9]{7}$/){ //Esto anda mal!
     alert("El teléfono debe ser numérico y de largo 9.")
     $("#telefono").val("");
   }else{
@@ -32,17 +34,62 @@ function verificoNumerico(){
 }
 
 function registrar(){
-  if ($("#passR").val() != $("#passR2").val()) {
+  if ($("#passR").val() != $("#passR2").val()) { //Verifica que los dos pass sean iguales
     alert("Las contraseñas no coinciden!");
   }else{
-    //Asignar usuario.
+    var usu = $("#email").val();
+		var pass = $("#passR").val();
+		var tel = $("#telefono").val();
+		$.ajax({
+		  url: "http://api.marcelocaiafa.com/usuario",
+			type: "POST",
+			dataType: "JSON",
+			data: JSON.stringify({
+			  email: usu,
+				password: pass,
+				telefono: tel
+			}),
+			success: function(response){
+        console.log("success",response);
+        idUsu = response.description.usuario.id;
+        token = response.description.token;
+        $("#res").text("Exito! -> " + JSON.stringify(response));
+        respuesta = response;
+      },
+      error: function(err,cod,msg){
+        console.log("err",err);
+        $("#res").text("Error -> " + err.responseText);
+        console.log("cod",cod);
+        console.log("msg",msg);
+      }
+		});
   }
 }
 
 function login(){
-  user = $("#user").val();
-  pass = $("#pass").val();
-  //Validar usuario.
+  var user = $("#user").val();
+  var pass = $("#pass").val();
+	$.ajax({
+	  url: "http://api.marcelocaiafa.com/login",
+		type: "POST",
+		dataType: "JSON",
+		data: JSON.stringify({
+		  email: user,
+			password: pass
+		}),
+    success: function(response){
+        console.log("success",response);
+        $("#res").text("Exito! -> " + JSON.stringify(response));
+        respuesta = response;
+      },
+      error: function(err,cod,msg){
+        console.log("err",err);
+        $("#res").text(err.responseText);
+        console.log("cod",cod);
+        console.log("msg",msg);
+      }
+  });
+
   $("#btnLogin").html(`<ons-icon size="30px" spin icon="md-spinner"></ons-icon>`);
   setTimeout(() => {
     $("#bienv").html(
@@ -55,11 +102,12 @@ function login(){
   }, 2000);
 };
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+function errorGenerico()
+{
+  console.log("Error!");
 }
-async function delay() {
-  console.log('Taking a break...');
-  await sleep(3000);
-  console.log('Two seconds later');
+
+function successGenerico()
+{
+  console.log("Success!");
 }
