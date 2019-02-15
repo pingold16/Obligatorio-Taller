@@ -1,4 +1,4 @@
-var db = window.openDatabase("Obligatorio", 1.0, "Obligatorio taller", 1024*1024*3);
+//var db = window.openDatabase("Obligatorio", 1.0, "Obligatorio taller", 1024*1024*3);
 
 window.fn = {};
 
@@ -69,7 +69,6 @@ function registrar(){
 function login(){
   var user = $("#user").val();
   var pass = $("#pass").val();
-  
   $("#btnLogin").html(`<ons-icon size="30px" spin icon="md-spinner"></ons-icon>`);
   setTimeout(function(){
       $.ajax({
