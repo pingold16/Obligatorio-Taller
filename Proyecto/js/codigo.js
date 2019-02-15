@@ -25,17 +25,17 @@ function cerrarSesion(){
 
 function verificoNumerico(){ 
   var n = $("#telefono").val();
-  if (n != 	/^09[0-9]{7}$/){ //Esto anda mal!
-    alert("El teléfono debe ser numérico y de largo 9.")
+  if (n != /^09[0-9]{7}$/){ //Esto anda mal!
+    ons.notification.alert("El teléfono debe ser numérico y de largo 9.")
     $("#telefono").val("");
   }else{
-    alert("goot")
+    ons.notification.alert("goot")
   }
 }
 
 function registrar(){
   if ($("#passR").val() != $("#passR2").val()) { //Verifica que los dos pass sean iguales
-    alert("Las contraseñas no coinciden!");
+    ons.notification.alert("Las contraseñas no coinciden!");
   }else{
     var usu = $("#email").val();
 		var pass = $("#passR").val();
@@ -84,9 +84,9 @@ function login(){
             console.log("success",response);
             $("#res").text("Exito! -> " + JSON.stringify(response));
             respuesta = response;
-            $("#bienv").html(
-              '<div class="right"><p>Hola, ' + user + '</p></div>'
-            );
+            ons.notification.toast('Bienvenido ' + user, {
+              timeout: 2000
+            });
             $("#login").hide();
             $("#contenido").show();
             $(".contenidoUsu").show();
@@ -97,11 +97,11 @@ function login(){
             $("#res").text(err.responseText);
             console.log("cod",cod);
             console.log("msg",msg);
-            alert(err.responseJSON.descripcion);
+            ons.notification.alert(err.responseJSON.descripcion);
             $("#btnLogin").html(`Ingresar`);
           }
       });
-  }, 2000);
+  }, 1000);
 };
 
 function errorGenerico()
