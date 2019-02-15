@@ -69,36 +69,38 @@ function registrar(){
 function login(){
   var user = $("#user").val();
   var pass = $("#pass").val();
-	$.ajax({
-	  url: "http://api.marcelocaiafa.com/login",
-		type: "POST",
-		dataType: "JSON",
-		data: JSON.stringify({
-		  email: user,
-			password: pass
-		}),
-    success: function(response){
-        console.log("success",response);
-        $("#res").text("Exito! -> " + JSON.stringify(response));
-        respuesta = response;
-      },
-      error: function(err,cod,msg){
-        console.log("err",err);
-        $("#res").text(err.responseText);
-        console.log("cod",cod);
-        console.log("msg",msg);
-      }
-  });
-
+  
   $("#btnLogin").html(`<ons-icon size="30px" spin icon="md-spinner"></ons-icon>`);
   setTimeout(() => {
-    $("#bienv").html(
-      '<div class="right"><p>Hola, ' + user + '</p></div>'
-    );
-    $("#login").hide();
-    $("#contenido").show();
-    $(".contenidoUsu").show();
-    $("#btnLogin").html(`Ingresar`);
+      $.ajax({
+        url: "http://api.marcelocaiafa.com/login",
+        type: "POST",
+        dataType: "JSON",
+        data: JSON.stringify({
+          email: user,
+          password: pass
+        }),
+        success: function(response){
+            console.log("success",response);
+            $("#res").text("Exito! -> " + JSON.stringify(response));
+            respuesta = response;
+            $("#bienv").html(
+              '<div class="right"><p>Hola, ' + user + '</p></div>'
+            );
+            $("#login").hide();
+            $("#contenido").show();
+            $(".contenidoUsu").show();
+            $("#btnLogin").html(`Ingresar`);
+          },
+          error: function(err,cod,msg){
+            console.log("err",err);
+            $("#res").text(err.responseText);
+            console.log("cod",cod);
+            console.log("msg",msg);
+            alert(err.responseJSON.descripcion);
+            $("#btnLogin").html(`Ingresar`);
+          }
+      });
   }, 2000);
 };
 
