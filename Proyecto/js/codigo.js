@@ -89,7 +89,6 @@ function login(){
             $("#login").hide();
             $("#contenido").show();
             $(".contenidoUsu").show();
-            $("#btnLogin").html(`Ingresar`);
           },
           error: function(err,cod,msg){
             console.log("err",err);
@@ -97,10 +96,10 @@ function login(){
             console.log("cod",cod);
             console.log("msg",msg);
             ons.notification.alert(err.responseJSON.descripcion);
-            $("#btnLogin").html(`Ingresar`);
           }
       });
   }, 1000);
+  $("#btnLogin").html(`Ingresar`);
 };
 
 function errorGenerico()
