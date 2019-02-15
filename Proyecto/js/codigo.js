@@ -58,7 +58,7 @@ function registrar(){
       },
       error: function(err,cod,msg){
         console.log("err",err);
-        $("#res").text("Error -> " + err.responseText);
+        ons.notification.alert(err.responseJSON.descripcion);
         console.log("cod",cod);
         console.log("msg",msg);
       }
