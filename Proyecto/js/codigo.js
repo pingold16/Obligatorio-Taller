@@ -71,7 +71,7 @@ function login(){
   var pass = $("#pass").val();
   
   $("#btnLogin").html(`<ons-icon size="30px" spin icon="md-spinner"></ons-icon>`);
-  setTimeout(() => {
+  setTimeout(function(){
       $.ajax({
         url: "http://api.marcelocaiafa.com/login",
         type: "POST",
