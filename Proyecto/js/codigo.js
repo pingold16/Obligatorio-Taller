@@ -80,23 +80,23 @@ function login(){
           password: pass
         }),
         success: function(response){
-            console.log("success",response);
-            $("#res").text("Exito! -> " + JSON.stringify(response));
-            respuesta = response;
-            ons.notification.toast('Bienvenido ' + user, {
-              timeout: 2000
-            });
-            $("#login").hide();
-            $("#contenido").show();
-            $(".contenidoUsu").show();
-          },
-          error: function(err,cod,msg){
-            console.log("err",err);
-            $("#res").text(err.responseText);
-            console.log("cod",cod);
-            console.log("msg",msg);
-            ons.notification.alert(err.responseJSON.descripcion);
-          }
+          console.log("success",response);
+          $("#res").text("Exito! -> " + JSON.stringify(response));
+          respuesta = response;
+          ons.notification.toast('Bienvenido ' + user, {
+            timeout: 2000
+          });
+          $("#login").hide();
+          $("#contenido").show();
+          $(".contenidoUsu").show();
+        },
+        error: function(err,cod,msg){
+          console.log("err",err);
+          $("#res").text(err.responseText);
+          console.log("cod",cod);
+          console.log("msg",msg);
+          ons.notification.alert(err.responseJSON.descripcion);
+        }
       });
   }, 1000);
   $("#btnLogin").html(`Ingresar`);
