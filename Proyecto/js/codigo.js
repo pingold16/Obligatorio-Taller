@@ -93,9 +93,7 @@ function login(){
           console.log("success",response);
           $("#res").text("Exito! -> " + JSON.stringify(response));
           respuesta = response;
-          ons.notification.toast('Bienvenido ' + user, {
-            timeout: 2000
-          });
+          $("#bienv").html('Bienvenido ' + user);
           $("#login").hide();
           $("#contenido").show();
           $(".contenidoUsu").show();
