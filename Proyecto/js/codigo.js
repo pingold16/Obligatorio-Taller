@@ -151,6 +151,35 @@ function registrarVehiculo(){
   });
 }
 
+function mostrarLista(){
+  $.ajax({
+    headers:{
+      Authorization: sessionStorage.getItem('token')
+    },
+    url: "http://api.marcelocaiafa.com/vehiculo/?usuario=" + sessionStorage.getItem('idUsu'),
+    type: "GET",
+    dataType: "JSON",
+    success: function(response){
+      $("#resultado").empty();
+      console.log("success",response);
+      response.description.forEach(function(e,i){
+        $("#resultado").append('<ons-list-item class="table" tappable onclick=mostrarDescripcion("'+ e.id +'")>'+
+            '<img class="list-item__thumbnail" src="' + e.usuario + 
+            '"></div><span class="list-item__title">' + e.matricula +
+            '</span><span class="list-item__subtitle">' + e.descripcion + 
+            '</span></div></ons-list-item>'
+        );
+      });
+    },
+    error: function(err,cod,msg){
+      console.log("err",err);
+      ons.notification.alert(err.responseJSON.descripcion);
+      console.log("cod",cod);
+      console.log("msg",msg);
+    }
+  });
+}
+
 /*function errorGenerico()
 {
   console.log("Error!");
