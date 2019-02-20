@@ -101,6 +101,7 @@ function login(){
           $("#login").hide();
           $("#contenido").show();
           $(".contenidoUsu").show();
+          $("#btnLogin").html(`Ingresar`);
         },
         error: function(err,cod,msg){
           console.log("err",err);
@@ -111,7 +112,6 @@ function login(){
         }
       });
   }, 1000);
-  $("#btnLogin").html(`Ingresar`);
 };
 
 function despliegaReg(){
