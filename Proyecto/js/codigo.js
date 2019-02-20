@@ -61,10 +61,10 @@ function registrar(){
         ons.notification.toast('Registro exitoso!', {
           timeout: 2000
         });
-        $("#email").val();
-		    $("#passR").val();
-        $("#telefono").val();
-        $("#passR2").val();
+        $("#email").val('');
+		    $("#passR").val('');
+        $("#telefono").val('');
+        $("#passR2").val('');
       },
       error: function(err,cod,msg){
         console.log("err",err);

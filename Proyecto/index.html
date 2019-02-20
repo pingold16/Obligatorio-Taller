@@ -17,7 +17,7 @@
               <ons-page>
                 <ons-list>
                   <ons-list-item onclick="fn.load('home.html')" tappable>
-                    Inicio
+                    Iniciooo
                   </ons-list-item>
                   <div class="contenidoUsu" hidden>
                     <ons-list-item onclick="fn.load('miVehiculo.html')" tappable>
@@ -104,6 +104,21 @@
                   Mi vehiculo
                 </div>
               </ons-toolbar>
+              <div id="login" style="text-align: center; margin-top: 30px;">
+                <p>
+                  <ons-input id="Matricula" modifier="underbar" placeholder="Matricula" float></ons-input>
+                </p><br/>
+                <p>
+                  <ons-input id="Modelo" modifier="underbar" placeholder="Modelo" float onfocusout="verificoNumerico()"></ons-input>
+                </p><br/>
+                <p>
+                  <ons-input id="Marca" modifier="underbar"  placeholder="Marca" float></ons-input>
+                </p><br/>
+               <br/>
+                <p style="margin-top: 30px;">
+                  <ons-button onclick="registrar()">Registrar</ons-button>
+                </p>
+              </div>
             </ons-page>
           </template>
           
