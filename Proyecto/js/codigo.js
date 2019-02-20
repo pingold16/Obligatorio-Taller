@@ -23,13 +23,16 @@ function cerrarSesion(){
   fn.load('home.html');
 };
 
-function verificoNumerico(){ 
+function verificoNumerico(){ //Validacion de telefono
   var n = $("#telefono").val();
-  if (n != /^09[0-9]{7}$/){ //Esto anda mal!
-    ons.notification.alert("El teléfono debe ser numérico y de largo 9.")
-    $("#telefono").val("");
-  }else{
-    ons.notification.alert("goot")
+  var expresion1 = /^09[0-9]{7}$/;
+  var expresion2 = /^[0-9]{8}$/;
+  if (n == ''){
+    ons.notification.alert("El campo es obligatorio.");
+  }
+  else if (!expresion1.test(n) && !expresion2.test(n)){ 
+    ons.notification.alert("Numero de telefono incorrecto.");
+    $("#telefono").val('');
   }
 }
 
@@ -55,6 +58,13 @@ function registrar(){
         token = response.description.token;
         $("#res").text("Exito! -> " + JSON.stringify(response));
         respuesta = response;
+        ons.notification.toast('Registro exitoso!', {
+          timeout: 2000
+        });
+        $("#email").val();
+		    $("#passR").val();
+        $("#telefono").val();
+        $("#passR2").val();
       },
       error: function(err,cod,msg){
         console.log("err",err);
@@ -98,7 +108,7 @@ function login(){
           ons.notification.alert(err.responseJSON.descripcion);
         }
       });
-  }, 1000);
+  }, 3000);
   $("#btnLogin").html(`Ingresar`);
 };
 
