@@ -114,6 +114,11 @@ function login(){
   $("#btnLogin").html(`Ingresar`);
 };
 
+function despliegaReg(){
+  $("#regVehiculo").toggle();
+  //$("#btnMostrar").html('Ocultar');
+}
+
 function registrarVehiculo(){
   var mat = $("#Matricula").val();
   var marca = $("#Marca").val();
