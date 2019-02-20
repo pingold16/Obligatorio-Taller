@@ -91,7 +91,6 @@ function login(){
         }),
         success: function(response){
           console.log("success",response);
-          $("#res").text("Exito! -> " + JSON.stringify(response));
           respuesta = response;
           idUsu = response.description.usuario.id;
           token = response.description.token;
@@ -105,7 +104,6 @@ function login(){
         },
         error: function(err,cod,msg){
           console.log("err",err);
-          $("#res").text(err.responseText);
           console.log("cod",cod);
           console.log("msg",msg);
           ons.notification.alert(err.responseJSON.descripcion);
@@ -138,7 +136,6 @@ function registrarVehiculo(){
     }),
     success: function(response){
       console.log("success",response);
-      //$("#res").text("Exito! -> " + JSON.stringify(response));
       respuesta = response;
       ons.notification.toast('Registro exitoso!', {
         timeout: 2000
