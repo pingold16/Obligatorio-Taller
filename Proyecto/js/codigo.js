@@ -108,7 +108,7 @@ function login(){
           ons.notification.alert(err.responseJSON.descripcion);
         }
       });
-  }, 3000);
+  }, 1000);
   $("#btnLogin").html(`Ingresar`);
 };
 
