@@ -58,10 +58,10 @@
                 <ons-page>
                   <div id="login" style="text-align: center; margin-top: 30px;">
                     <p>
-                      <ons-input id="user" modifier="underbar" placeholder="Usuario" float></ons-input>
+                      <ons-input id="user" modifier="underbar" placeholder="Usuario" value="f@algo.com" float></ons-input>
                     </p><br/>
                     <p>
-                      <ons-input id="pass" modifier="underbar" type="password" placeholder="Contraseña" float></ons-input>
+                      <ons-input id="pass" modifier="underbar" type="password" placeholder="Contraseña" value="1234" float></ons-input>
                     </p>
                     <p style="margin-top: 30px;">
                       <ons-button id="btnLogin" onclick="login()">Ingresar</ons-button>
@@ -103,21 +103,25 @@
                 <div class="center">
                   Mi vehiculo
                 </div>
-
               </ons-toolbar>
               <div id="login" style="text-align: center; margin-top: 30px;">
-                <p>
-                  <ons-input id="Matricula" modifier="underbar" placeholder="Matricula" float></ons-input>
-                </p><br/>
-                <p>
-                  <ons-input id="Modelo" modifier="underbar" placeholder="Modelo" float onfocusout="verificoNumerico()"></ons-input>
-                </p><br/>
-                <p>
-                  <ons-input id="Marca" modifier="underbar"  placeholder="Marca" float></ons-input>
-                </p><br/>
-               <br/>
+                <div id="regVehiculo" hidden>
+                  <p>
+                    <ons-input id="Matricula" modifier="underbar" placeholder="Matricula" float></ons-input>
+                  </p><br/>
+                  <p>
+                    <ons-input id="Marca" modifier="underbar"  placeholder="Marca" float></ons-input>
+                  </p><br/>
+                  <p>
+                    <ons-input id="Modelo" modifier="underbar" placeholder="Modelo" float></ons-input>
+                  </p><br/>
+                  <br/>
+                </div> 
                 <p style="margin-top: 30px;">
-                  <ons-button onclick="registrar()">Registrar</ons-button>
+                  <ons-button onclick="registrarVehiculo()">Registrar vehiculo</ons-button>
+                </p>
+                <p style="margin-top: 30px;">
+                    <ons-button onclick="mostrarLista()">Lista de mis vehiculos</ons-button>
                 </p>
               </div>
             </ons-page>

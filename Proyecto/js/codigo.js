@@ -93,6 +93,10 @@ function login(){
           console.log("success",response);
           $("#res").text("Exito! -> " + JSON.stringify(response));
           respuesta = response;
+          idUsu = response.description.usuario.id;
+          token = response.description.token;
+          sessionStorage.setItem('idUsu', idUsu)
+          sessionStorage.setItem('token', token)
           $("#bienv").html('Bienvenido ' + user);
           $("#login").hide();
           $("#contenido").show();
@@ -110,7 +114,44 @@ function login(){
   $("#btnLogin").html(`Ingresar`);
 };
 
-function errorGenerico()
+function registrarVehiculo(){
+  var mat = $("#Matricula").val();
+  var marca = $("#Marca").val();
+  var modelo = $("#Modelo").val();
+  var descVehiculo = marca + " " + modelo;
+  $.ajax({
+    headers:{
+      Authorization: sessionStorage.getItem('token')
+    },
+    url: "http://api.marcelocaiafa.com/vehiculo",
+    type: "POST",
+    dataType: "JSON",
+    data: JSON.stringify({
+      matricula: mat,
+      descripcion: descVehiculo,
+      usuario: sessionStorage.getItem('idUsu')
+    }),
+    success: function(response){
+      console.log("success",response);
+      //$("#res").text("Exito! -> " + JSON.stringify(response));
+      respuesta = response;
+      ons.notification.toast('Registro exitoso!', {
+        timeout: 2000
+      });
+      $("#Matricula").val('');
+      $("#Marca").val('');
+      $("#Modelo").val('');
+    },
+    error: function(err,cod,msg){
+      console.log("err",err);
+      ons.notification.alert(err.responseJSON.descripcion);
+      console.log("cod",cod);
+      console.log("msg",msg);
+    }
+  });
+}
+
+/*function errorGenerico()
 {
   console.log("Error!");
 }
@@ -118,4 +159,4 @@ function errorGenerico()
 function successGenerico()
 {
   console.log("Success!");
-}
+}*/
