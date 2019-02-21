@@ -23,14 +23,17 @@
                     <ons-list-item onclick="fn.load('miVehiculo.html')" tappable>
                       Mi vehiculo
                     </ons-list-item>
+                    <ons-list-item onclick="fn.load('mapa.html')" tappable>
+                      Mapa
+                    </ons-list-item>
                   </div>
                   <ons-list-item onclick="fn.load('registro.html')" tappable>
                     Registro de usuario
                   </ons-list-item>
-                  <ons-list-item onclick="fn.load('settings.html')" tappable>
-                    Configuración
-                  </ons-list-item>
                   <div class="contenidoUsu" hidden>
+                  <ons-list-item onclick="fn.load('servicio.html')" tappable>
+                    Servicios
+                  </ons-list-item>
                     <ons-list-item onclick="cerrarSesion()" tappable>
                       Cerrar Sesión
                     </ons-list-item>
@@ -77,7 +80,7 @@
             </ons-page>
           </template>
           
-          <template id="settings.html">
+          <template id="servicio.html">
             <ons-page>
               <ons-toolbar>
                 <div class="left">
@@ -86,9 +89,32 @@
                   </ons-toolbar-button>
                 </div>
                 <div class="center">
-                  Configuración
+                  Servicio
                 </div>
               </ons-toolbar>
+              <div class="center">
+                <ons-select id="choose-sel" onclick="cargarListaServicio()">
+                  <option value="0">Seleccione un servicio</option>
+                </ons-select> <!- editSelects(event) -->
+              </div>
+            </ons-page>
+          </template>
+
+          <template id="mapa.html">
+            <ons-page>
+              <ons-toolbar>
+                <div class="left">
+                  <ons-toolbar-button onclick="fn.open()">
+                    <ons-icon icon="md-menu"></ons-icon>
+                  </ons-toolbar-button>
+                </div>
+                <div class="center">
+                  Mapa
+                </div>
+              </ons-toolbar>
+              <div id="map">
+
+              </div>
             </ons-page>
           </template>
 

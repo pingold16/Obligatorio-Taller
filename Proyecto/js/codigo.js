@@ -28,6 +28,7 @@ function cerrarSesion(){
       ons.notification.toast(response.description, {
         timeout: 2000
       });
+      sessionStorage.setItem('token', 0);
       $("#bienv").empty();
       $("#login").show();
       $("#contenido").hide();
@@ -75,7 +76,6 @@ function registrar(){
         console.log("success",response);
         idUsu = response.description.usuario.id;
         token = response.description.token;
-        $("#res").text("Exito! -> " + JSON.stringify(response));
         respuesta = response;
         ons.notification.toast('Registro exitoso!', {
           timeout: 2000
@@ -115,7 +115,9 @@ function login(){
           token = response.description.token;
           sessionStorage.setItem('idUsu', idUsu)
           sessionStorage.setItem('token', token)
-          $("#bienv").html('Bienvenido ' + user);
+          ons.notification.toast('Bienvenido ' + user, {
+            timeout: 2000
+          });
           $("#login").hide();
           $("#contenido").show();
           $(".contenidoUsu").show();
@@ -201,12 +203,53 @@ function mostrarLista(){
   });
 }
 
-/*function errorGenerico()
-{
-  console.log("Error!");
+function cargarListaServicio(){
+  $.ajax({
+    headers:{
+      Authorization: sessionStorage.getItem('token')
+    },
+    url: "http://api.marcelocaiafa.com/servicio",
+    type: "GET",
+    dataType: "JSON",
+    success: function(response){
+      $("#choose-sel").empty();
+      console.log("success",response);
+      response.description.forEach(function(e,i){
+        $("#choose-sel").append('<option value="' + e.id + '">' + e.nombre + '</option>'
+        );
+      });
+    },
+    error: function(err,cod,msg){
+      console.log("err",err);
+      ons.notification.alert(err.responseJSON.descripcion);
+      console.log("cod",cod);
+      console.log("msg",msg);
+    }
+  });
 }
 
-function successGenerico()
-{
-  console.log("Success!");
-}*/
+//Mapa
+function initMap() {
+  var directionsService = new google.maps.DirectionsService;
+  var directionsDisplay = new google.maps.DirectionsRenderer;
+  map = new google.maps.Map(document.getElementById(idMapa), {
+    center: {lat: miLat, lng: miLng},
+    zoom: 13
+  });
+  directionsDisplay.setMap(map);
+  calculateAndDisplayRoute(directionsService, directionsDisplay);
+}
+
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+  directionsService.route({
+    origin: {lat: miLat, lng: miLng},
+    destination: posCDS,
+    travelMode: 'DRIVING'
+  }, function(response, status) {
+    if (status === 'OK') {
+      directionsDisplay.setDirections(response);
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+}
