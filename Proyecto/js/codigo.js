@@ -16,11 +16,30 @@ window.fn.load = function(page) {
 
 function cerrarSesion(){
   user = ""; pass = "";
-  $("#bienv").empty();
-  $("#login").show();
-  $("#contenido").hide();
-  $(".contenidoUsu").hide();
-  fn.load('home.html');
+  $.ajax({
+    headers:{
+      Authorization: sessionStorage.getItem('token')
+    },
+    url: "http://api.marcelocaiafa.com/logout",
+    type: "POST",
+    dataType: "JSON",
+    success: function(response){
+      console.log("success",response);
+      ons.notification.toast(response.description, {
+        timeout: 2000
+      });
+      $("#bienv").empty();
+      $("#login").show();
+      $("#contenido").hide();
+      $(".contenidoUsu").hide();
+      fn.load('home.html');
+    },
+    error: function(err,cod,msg){
+      console.log("err",err);
+      console.log("cod",cod);
+      console.log("msg",msg);
+    }
+  });
 };
 
 function verificoNumerico(){ //Validacion de telefono
