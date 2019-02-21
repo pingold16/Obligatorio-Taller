@@ -8,15 +8,3 @@ body #bienv{
   margin-right:10px;
 
 }
-
-#mapClick, #mapInsta {
-  height: 100%;
-}
-/* Optional: Makes the sample page fill the window. */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-size: 18px;
-  font-family: 'Courier New', Courier, monospace;
-}
