@@ -14,6 +14,16 @@ window.fn.load = function(page) {
     .then(menu.close.bind(menu));
 };
 
+document.addEventListener('init', function(event) {
+  var page = event.target;
+
+  if (page.id === 'servicio') {
+    cargarListaServicio();
+  }/* else if (page.id === 'mapaClick') {
+    idMapa = 'mapClick';
+  }*/
+});
+
 function cerrarSesion(){
   user = ""; pass = "";
   $.ajax({
@@ -174,7 +184,7 @@ function registrarVehiculo(){
   });
 }
 
-function mostrarLista(){
+function mostrarListaVehiculo(){
   $.ajax({
     headers:{
       Authorization: sessionStorage.getItem('token')
@@ -212,12 +222,13 @@ function cargarListaServicio(){
     type: "GET",
     dataType: "JSON",
     success: function(response){
-      $("#choose-sel").empty();
       console.log("success",response);
+      var res = '<ons-select id="choose-sel" onchange="editSelects(event)"><option value="0">Seleccione un servicio</option>';
       response.description.forEach(function(e,i){
-        $("#choose-sel").append('<option value="' + e.id + '">' + e.nombre + '</option>'
-        );
+        res +='<option value="'+ e.id +'">'+ e.nombre +'</option>';
       });
+      res += '</ons-select>';
+      $("#choose-sel").html(res);
     },
     error: function(err,cod,msg){
       console.log("err",err);

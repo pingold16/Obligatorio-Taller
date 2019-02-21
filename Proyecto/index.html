@@ -26,14 +26,14 @@
                     <ons-list-item onclick="fn.load('mapa.html')" tappable>
                       Mapa
                     </ons-list-item>
+                    <ons-list-item onclick="fn.load('servicio.html')" tappable>
+                      Servicios
+                    </ons-list-item>
                   </div>
                   <ons-list-item onclick="fn.load('registro.html')" tappable>
                     Registro de usuario
                   </ons-list-item>
                   <div class="contenidoUsu" hidden>
-                  <ons-list-item onclick="fn.load('servicio.html')" tappable>
-                    Servicios
-                  </ons-list-item>
                     <ons-list-item onclick="cerrarSesion()" tappable>
                       Cerrar Sesión
                     </ons-list-item>
@@ -81,7 +81,7 @@
           </template>
           
           <template id="servicio.html">
-            <ons-page>
+            <ons-page id="servicio">
               <ons-toolbar>
                 <div class="left">
                   <ons-toolbar-button onclick="fn.open()">
@@ -92,10 +92,13 @@
                   Servicio
                 </div>
               </ons-toolbar>
-              <div class="center">
-                <ons-select id="choose-sel" onclick="cargarListaServicio()">
+              <div id="choose-sel" class="center">
+                
+              </div>
+              <div hidden>
+                <ons-select id="choose-sel" onchange="editSelects(event)">
                   <option value="0">Seleccione un servicio</option>
-                </ons-select> <!- editSelects(event) -->
+                </ons-select>
               </div>
             </ons-page>
           </template>
@@ -143,14 +146,14 @@
                   </p><br/>
                   <br/>
                   <p style="margin-top: 30px;">
-                    <ons-button id="btnRegistro" onclick="registrarVehiculo()">Registrar vehiculo</ons-button>
+                    <ons-button id="btnRegistro" onclick="registrarVehiculo()">Registrar</ons-button>
                   </p>
                 </div>
                 <p style="margin-top: 30px;">
-                  <ons-button id="btnMostrar" onclick="despliegaReg()">Mostrar/Ocultar</ons-button>
+                  <ons-button id="btnMostrar" onclick="despliegaReg()">Nuevo vehiculo</ons-button>
                 </p>
                 <p style="margin-top: 30px;">
-                    <ons-button onclick="mostrarLista()">Lista de mis vehiculos</ons-button>
+                    <ons-button onclick="mostrarListaVehiculo()">Lista de mis vehiculos</ons-button>
                 </p>
                 <div id="resultado"></div>
               </div>
