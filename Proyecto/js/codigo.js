@@ -214,6 +214,7 @@ function mostrarListaVehiculo(){
 }
 
 function cargarListaServicio(){
+  cargarVehiculos();
   $.ajax({
     headers:{
       Authorization: sessionStorage.getItem('token')
@@ -239,6 +240,33 @@ function cargarListaServicio(){
   });
 }
 
+function cargarVehiculos(){
+  $.ajax({
+    headers:{
+      Authorization: sessionStorage.getItem('token')
+    },
+    url: "http://api.marcelocaiafa.com/vehiculo/?usuario=" + sessionStorage.getItem('idUsu'),
+    type: "GET",
+    dataType: "JSON",
+    success: function(response){
+      $("#resultado").empty();
+      console.log("success",response);
+      var res = '<ons-select id="selVehiculo"><option value="0">Seleccione su vehiculo</option>';
+      response.description.forEach(function(e,i){
+        res +='<option value="'+ e.id +'">'+ e.descripcion + ' ' + e.matricula +'</option>';
+      });
+      res += '</ons-select>';
+      $("#choose-selV").html(res);
+    },
+    error: function(err,cod,msg){
+      console.log("err",err);
+      ons.notification.alert(err.responseJSON.descripcion);
+      console.log("cod",cod);
+      console.log("msg",msg);
+    }
+  });
+}
+
 function cargarTaller(){
   $.ajax({
     headers:{
@@ -254,7 +282,9 @@ function cargarTaller(){
       console.log("success",response);
       var res = '<ons-select id="selTaller"><option value="0">Seleccione un taller</option>';
       response.description.forEach(function(e,i){
-        res +='<option value="'+ e.id +'">'+ e.descripcion +'</option>';
+        res +='<option value="'+ e.id +
+        'onclick="function(){ $("#form").show(); }"'+
+        '">'+ e.descripcion +'</option>';
       });
       res += '</ons-select>';
       $("#choose-selT").html(res);
@@ -266,6 +296,49 @@ function cargarTaller(){
       console.log("msg",msg);
     }
   });
+}
+
+function registroMantenimiento(){
+  var servicio = $("#selServicio").val();
+	var vehiculo = $("#selVehiculo").val();
+  var taller = $("#selTaller").val();
+  var km = $("#kilometraje").val();
+  var costo = $("#costo").val();
+  var fecha = $("#date").val();
+  var desc = $("#descripcion").val();
+	$.ajax({
+		url: "http://api.marcelocaiafa.com/mantenimiento",
+		type: "POST",
+		dataType: "JSON",
+		data: JSON.stringify({
+      vehiculo: vehiculo,  
+      descripcion: desc,  
+      fecha: fecha,  
+      servicio: servicio,  
+      kilometraje: km,  
+      costo: costo,  
+      taller: taller
+		}),
+		success: function(response){
+      console.log("success",response);
+      idUsu = response.description.usuario.id;
+      token = response.description.token;
+      respuesta = response;
+      ons.notification.toast('Registro exitoso!', {
+        timeout: 2000
+      });
+      $("#email").val('');
+		  $("#passR").val('');
+      $("#telefono").val('');
+      $("#passR2").val('');
+    },
+    error: function(err,cod,msg){
+      console.log("err",err);
+      ons.notification.alert(err.responseJSON.descripcion);
+      console.log("cod",cod);
+      console.log("msg",msg);
+    }
+	});
 }
 
 //Mapa

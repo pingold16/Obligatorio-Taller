@@ -42,7 +42,7 @@
                       Mapa
                     </ons-list-item>
                     <ons-list-item onclick="fn.load('servicio.html')" tappable>
-                      Servicios
+                      Mantenimiento
                     </ons-list-item>
                   </div>
                   <ons-list-item onclick="fn.load('registro.html')" tappable>
@@ -104,11 +104,29 @@
                   </ons-toolbar-button>
                 </div>
                 <div class="center">
-                  Servicio
+                  Mantenimiento
                 </div>
               </ons-toolbar>
-              <div id="choose-sel" class="center"></div>
-              <div id="choose-selT" class="center"></div>
+              <div style="text-align: center">
+                <div id="choose-selV" style="margin-top: 30px;"></div>
+                <div id="choose-sel" style="text-align: center; margin-top: 30px;"></div>
+                <div id="choose-selT" style="text-align: center; margin-top: 30px;"></div>
+                <div id='form'>
+                  <p>
+                    <ons-input id="descripcion" modifier="underbar" placeholder="Descripcion" float></ons-input>
+                  </p><br/>
+                  <p>
+                    <ons-input id="kilometraje" modifier="underbar" placeholder="Kilometraje" float></ons-input>
+                  </p><br/>
+                  <p>
+                    <ons-input id="costo" modifier="underbar" type="number" placeholder="Costo" float></ons-input>
+                  </p><br/>
+                  <p>
+                    <ons-input id="date" modifier="underbar" type="datetime" placeholder="Fecha" float></ons-input>
+                  </p>
+                </div>
+                <ons-button style="margin-top: 30px" onclick="registroMantenimiento()">Registrar mantenimiento</ons-button>
+              </div>
             </ons-page>
           </template>
 
@@ -124,13 +142,12 @@
                   Mapa
                 </div>
               </ons-toolbar>
-              <span class="metadata-marker" style="display: none;" data-region_tag="css"></span>
               <div id="map">
 
               </div>
             </ons-page>
           </template>
-          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAF-r6qimFZFgt0C2mQUxUvVfsRn6v1YU"
+          <script src="https://maps.googleapis.com/maps/api/js?key=1AIzaSyBAF-r6qimFZFgt0C2mQUxUvVfsRn6v1YU"
       async defer></script>
 
           <template id="miVehiculo.html">
