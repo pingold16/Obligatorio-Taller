@@ -19,9 +19,10 @@ document.addEventListener('init', function(event) {
 
   if (page.id === 'servicio') {
     cargarListaServicio();
-  }/* else if (page.id === 'mapaClick') {
-    idMapa = 'mapClick';
-  }*/
+  }else if (page.id === 'mapa') {
+    idMapa = 'map';
+    mostrarMapa();
+  }
 });
 
 function cerrarSesion(){
@@ -223,12 +224,41 @@ function cargarListaServicio(){
     dataType: "JSON",
     success: function(response){
       console.log("success",response);
-      var res = '<ons-select id="choose-sel" onchange="editSelects(event)"><option value="0">Seleccione un servicio</option>';
+      var res = '<ons-select id="selServicio" onchange="cargarTaller()"><option value="0">Seleccione un servicio</option>';
       response.description.forEach(function(e,i){
         res +='<option value="'+ e.id +'">'+ e.nombre +'</option>';
       });
       res += '</ons-select>';
       $("#choose-sel").html(res);
+    },
+    error: function(err,cod,msg){
+      console.log("err",err);
+      ons.notification.alert(err.responseJSON.descripcion);
+      console.log("cod",cod);
+      console.log("msg",msg);
+    }
+  });
+}
+
+function cargarTaller(){
+  $.ajax({
+    headers:{
+      Authorization: sessionStorage.getItem('token')
+    },
+    url: "http://api.marcelocaiafa.com/taller",
+    type: "GET",
+    dataType: "JSON",
+    data:{
+      servicio: $("#selServicio").val()
+    },
+    success: function(response){
+      console.log("success",response);
+      var res = '<ons-select id="selTaller"><option value="0">Seleccione un taller</option>';
+      response.description.forEach(function(e,i){
+        res +='<option value="'+ e.id +'">'+ e.descripcion +'</option>';
+      });
+      res += '</ons-select>';
+      $("#choose-selT").html(res);
     },
     error: function(err,cod,msg){
       console.log("err",err);
@@ -248,7 +278,7 @@ function initMap() {
     zoom: 13
   });
   directionsDisplay.setMap(map);
-  calculateAndDisplayRoute(directionsService, directionsDisplay);
+  //calculateAndDisplayRoute(directionsService, directionsDisplay);
 }
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
@@ -263,4 +293,24 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
       window.alert('Directions request failed due to ' + status);
     }
   });
+}
+
+function mostrarMapa(){
+  navigator.geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy: true});
+}
+
+var onSuccess = function(position) {
+
+  miLat = position.coords.latitude;
+  miLng = position.coords.longitude;
+
+  setTimeout(initMap,0);
+
+};
+
+// onError Callback receives a PositionError object
+//
+function onError(error) {
+    alert('code: '    + error.code    + '\n' +
+          'message: ' + error.message + '\n');
 }

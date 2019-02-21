@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns   = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id          = "uy.edu.ort.nombreapp"
+        versionCode = "10"
+        version     = "1.0.0" >
+
+    <name>Nombre de la App</name>
+
+    <description>
+        Descripción de la aplicación
+    </description>
+
+    <author href="https://ort.edu.uy" email="support@phonegap.com">
+        Yogui
+    </author>
+    
+    <preference name='phonegap-version' value='cli-7.0.1' />
+    <preference name='pgb-builder-version' value='2' />
+    
+    <!-- plugins -->
+    <plugin name="cordova-plugin-whitelist" spec="~1.3.3" />
+    <plugin name="cordova-plugin-geolocation" spec="2.4.3" />
+    <plugin name="cordova-plugin-battery-status" spec="~2.0.2" />
+    <plugin name="cordova-plugin-vibration" spec="~3.1.0" />
+    <plugin name="cordova-plugin-device" spec="~2.0.2" />
+    <plugin name="cordova-plugin-contacts" spec="~2.3.1" />
+    <plugin name="cordova-plugin-camera" spec="~2.4.1" />
+    
+    <plugin name="cordova-plugin-splashscreen" spec="~5.0.2" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="ShowSplashScreenSpinner" value="false"/>
+    <preference name="FadeSplashScreenDuration" value="500"/>
+    
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    
+</widget>

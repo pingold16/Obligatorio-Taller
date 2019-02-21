@@ -92,14 +92,13 @@
                   Servicio
                 </div>
               </ons-toolbar>
-              <div id="choose-sel" class="center">
-                
-              </div>
+              <div id="choose-sel" class="center"></div>
+              <div id="choose-selT" class="center"></div>
             </ons-page>
           </template>
 
           <template id="mapa.html">
-            <ons-page>
+            <ons-page id="mapa">
               <ons-toolbar>
                 <div class="left">
                   <ons-toolbar-button onclick="fn.open()">
@@ -205,5 +204,8 @@
               </ons-toolbar>
             </ons-page>
           </template>
+
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhfTvXeR1_KtzXelJWoMu64w9RaZ7bmE8"
+    async defer></script>
 </body>
 </html>
