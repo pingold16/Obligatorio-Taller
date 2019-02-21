@@ -20,7 +20,6 @@ document.addEventListener('init', function(event) {
   if (page.id === 'servicio') {
     cargarListaServicio();
   }else if (page.id === 'mapa') {
-    idMapa = 'map';
     mostrarMapa();
   }
 });
@@ -270,15 +269,21 @@ function cargarTaller(){
 }
 
 //Mapa
+var posCDS = {lat: -34.7970, lng: -56.0671};
+
+function mostrarMapa(){
+  navigator.geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy: true});
+}
+
 function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
-  map = new google.maps.Map(document.getElementById(idMapa), {
+  map = new google.maps.Map($("#map").val(), {
     center: {lat: miLat, lng: miLng},
     zoom: 13
   });
   directionsDisplay.setMap(map);
-  //calculateAndDisplayRoute(directionsService, directionsDisplay);
+  calculateAndDisplayRoute(directionsService, directionsDisplay);
 }
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
@@ -295,15 +300,11 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
   });
 }
 
-function mostrarMapa(){
-  navigator.geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy: true});
-}
-
 var onSuccess = function(position) {
-
+  console.log('success record');
   miLat = position.coords.latitude;
   miLng = position.coords.longitude;
-
+  console.log(miLat, miLng);
   setTimeout(initMap,0);
 
 };
