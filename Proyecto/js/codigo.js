@@ -305,8 +305,12 @@ function registroMantenimiento(){
   var km = $("#kilometraje").val();
   var costo = $("#costo").val();
   var fecha = $("#date").val();
+  fecha = moment(fecha).format('DD/MM/YYYY');
   var desc = $("#descripcion").val();
 	$.ajax({
+    headers:{
+      Authorization: sessionStorage.getItem('token')
+    },
 		url: "http://api.marcelocaiafa.com/mantenimiento",
 		type: "POST",
 		dataType: "JSON",
@@ -321,16 +325,23 @@ function registroMantenimiento(){
 		}),
 		success: function(response){
       console.log("success",response);
-      idUsu = response.description.usuario.id;
-      token = response.description.token;
+     // idUsu = response.description.usuario.id;
+     // token = response.description.token;
       respuesta = response;
       ons.notification.toast('Registro exitoso!', {
         timeout: 2000
       });
-      $("#email").val('');
+     /* $("#email").val(''); me parece que esto no va aca jajaj 
 		  $("#passR").val('');
       $("#telefono").val('');
-      $("#passR2").val('');
+      $("#passR2").val('');*/
+       $("#selServicio").val('');
+       $("#selVehiculo").val('');
+       $("#selTaller").val('');
+       $("#kilometraje").val('');
+       $("#costo").val('');
+       $("#date").val('');
+       $("#descripcion").val('');
     },
     error: function(err,cod,msg){
       console.log("err",err);
