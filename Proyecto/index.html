@@ -39,8 +39,13 @@
                     <ons-list-item onclick="fn.load('miVehiculo.html')" tappable>
                       Mi vehiculo
                     </ons-list-item>
-                    <ons-list-item onclick="fn.load('mapa.html')" tappable>
-                      Mapa
+                    <ons-list-item onclick="fn.load('mapaInsta.html')" tappable>
+                      <div class="left">
+                        <ons-icon fixed-width class="list-item__icon" ></ons-icon>
+                      </div>
+                      <div class="left">
+                        Mapa 
+                      </div>
                     </ons-list-item>
                     <ons-list-item onclick="fn.load('servicio.html')" tappable>
                       Mantenimiento
@@ -131,8 +136,8 @@
             </ons-page>
           </template>
 
-          <template id="mapa.html">
-            <ons-page id="mapa">
+          <template id="mapaInsta.html">
+            <ons-page id="mapaInsta">
               <ons-toolbar>
                 <div class="left">
                   <ons-toolbar-button onclick="fn.open()">
@@ -140,16 +145,16 @@
                   </ons-toolbar-button>
                 </div>
                 <div class="center">
-                  Mapa
+                  Mapa instantáneo
                 </div>
               </ons-toolbar>
-              <div id="map">
+
+              <div id="mapInsta">
 
               </div>
             </ons-page>
           </template>
-          <script src="https://maps.googleapis.com/maps/api/js?key=1AIzaSyBAF-r6qimFZFgt0C2mQUxUvVfsRn6v1YU"
-      async defer></script>
+        
 
           <template id="miVehiculo.html">
             <ons-page>
@@ -240,5 +245,7 @@
               </ons-toolbar>
             </ons-page>
           </template>
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhfTvXeR1_KtzXelJWoMu64w9RaZ7bmE8"
+    async defer></script>
 </body>
 </html>

@@ -353,16 +353,64 @@ function registroMantenimiento(){
 }
 
 //Mapa
+
+var db = window.openDatabase('bdPrueba','1.0','Base de Datos de Prueba',1024*1024*5);
+
+window.fn = {};
+
+window.fn.open = function() {
+  var menu = document.getElementById('menu');
+  menu.open();
+};
+
+window.fn.load = function(page) {
+  var content = document.getElementById('content');
+  var menu = document.getElementById('menu');
+  content.load(page)
+    .then(menu.close.bind(menu));
+};
+
+document.addEventListener('init', function(event) {
+  var page = event.target;
+
+  if (page.id === 'mapaInsta') {
+    idMapa = 'mapInsta';
+    mostrarMapa();
+  } else if (page.id === 'mapaClick') {
+    idMapa = 'mapClick';
+  }
+});
+
+var map;
+var idMapa;
+var miLat;
+var miLng;
 var posCDS = {lat: -34.7970, lng: -56.0671};
 
 function mostrarMapa(){
   navigator.geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy: true});
 }
 
+var onSuccess = function(position) {
+
+  miLat = position.coords.latitude;
+  miLng = position.coords.longitude;
+
+  setTimeout(initMap,0);
+
+};
+
+// onError Callback receives a PositionError object
+//
+function onError(error) {
+    alert('code: '    + error.code    + '\n' +
+          'message: ' + error.message + '\n');
+}
+
 function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
-  map = new google.maps.Map($("#map").val(), {
+  map = new google.maps.Map(document.getElementById(idMapa), {
     center: {lat: miLat, lng: miLng},
     zoom: 13
   });
@@ -382,20 +430,4 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
       window.alert('Directions request failed due to ' + status);
     }
   });
-}
-
-var onSuccess = function(position) {
-  console.log('success record');
-  miLat = position.coords.latitude;
-  miLng = position.coords.longitude;
-  console.log(miLat, miLng);
-  setTimeout(initMap,0);
-
-};
-
-// onError Callback receives a PositionError object
-//
-function onError(error) {
-    alert('code: '    + error.code    + '\n' +
-          'message: ' + error.message + '\n');
 }
