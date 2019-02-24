@@ -430,6 +430,7 @@ var idMapa;
 var miLat;
 var miLng;
 var posCDS = {lat: -34.7970, lng: -56.0671};
+var freno = {lat: -34.8812295, lng: -56.1815571};
 
 function mostrarMapa(){
   navigator.geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy: true});
@@ -465,7 +466,7 @@ function initMap() {
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
   directionsService.route({
     origin: {lat: miLat, lng: miLng},
-    destination: posCDS,
+    destination: freno,
     travelMode: 'DRIVING'
   }, function(response, status) {
     if (status === 'OK') {
