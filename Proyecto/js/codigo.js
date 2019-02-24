@@ -141,8 +141,9 @@ function login(){
         }
       });
   }, 1000);
-};
+}
 
+//Mi vehiculo
 function despliegaReg(){
   $("#regVehiculo").toggle();
   //$("#btnMostrar").html('Ocultar');
@@ -197,8 +198,7 @@ function mostrarListaVehiculo(){
       console.log("success",response);
       response.description.forEach(function(e,i){
         $("#resultado").append('<ons-list-item class="table" tappable onclick=mostrarDescripcion("'+ e.id +'")>'+
-            '<img class="list-item__thumbnail" src="' + e.usuario + 
-            '"></div><span class="list-item__title">' + e.matricula +
+            '</div><span class="list-item__title">' + e.matricula +
             '</span><span class="list-item__subtitle">' + e.descripcion + 
             '</span></div></ons-list-item>'
         );
@@ -206,13 +206,54 @@ function mostrarListaVehiculo(){
     },
     error: function(err,cod,msg){
       console.log("err",err);
-      ons.notification.alert(err.responseJSON.descripcion);
       console.log("cod",cod);
       console.log("msg",msg);
+      ons.notification.alert(err.responseJSON.descripcion);
     }
   });
 }
 
+function mostrarDescripcion(id){
+  $.ajax({
+    headers:{
+      Authorization: sessionStorage.getItem('token')
+    },
+    url: "http://api.marcelocaiafa.com/mantenimiento/",
+    type: "GET",
+    dataType: "JSON",
+    data:{
+      vehiculo: id
+    },
+    success: function(response){
+      console.log("success",response);
+      ons.openActionSheet({
+        title: 'Mantenimiento',
+        cancelable: true,
+        buttons: [
+          response.description.forEach(i => { //No se porque no andaaaaaa
+            i.descripcion;
+          }),
+        {
+          label: 'Cancel',
+          icon: 'md-close'
+        } 
+        ]
+      })
+    },
+    error: function(err,cod,msg){
+      console.log("err",err);
+      console.log("cod",cod);
+      console.log("msg",msg);
+      ons.notification.alert(err.responseJSON.descripcion);
+    }
+  });
+}
+
+function showActionSheet(){
+  
+}
+
+//Mantenimiento
 function cargarListaServicio(){
   cargarVehiculos();
   $.ajax({
@@ -286,7 +327,7 @@ function cargarTaller(){
         'onclick="function(){ $("#form").show(); }"'+
         '">'+ e.descripcion +'</option>';
       });
-      res += '</ons-select>';
+      res += '</ons-select><br/>';
       $("#choose-selT").html(res);
     },
     error: function(err,cod,msg){
@@ -305,7 +346,8 @@ function registroMantenimiento(){
   var km = $("#kilometraje").val();
   var costo = $("#costo").val();
   var fecha = $("#date").val();
-  fecha = moment(fecha).format('DD/MM/YYYY');
+  fecha = convertirFecha(fecha);
+  //fecha = moment(fecha).format('DD/MM/YYYY');
   var desc = $("#descripcion").val();
 	$.ajax({
     headers:{
@@ -339,12 +381,19 @@ function registroMantenimiento(){
        $("#descripcion").val('');
     },
     error: function(err,cod,msg){
+      console.log(fecha);
+      console.log($("#date").val());
       console.log("err",err);
-      ons.notification.alert(err.responseJSON.descripcion);
       console.log("cod",cod);
       console.log("msg",msg);
+      ons.notification.alert(err.responseJSON.descripcion);
     }
 	});
+}
+
+function convertirFecha(f){
+  var r = f[8] + f[9] + '/' + f[5] + f[6] + '/' + f[0] + f[1] + f[2] + f[3] + ' 00:00';
+  return r;
 }
 
 //Mapa
