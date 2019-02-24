@@ -325,16 +325,11 @@ function registroMantenimiento(){
 		}),
 		success: function(response){
       console.log("success",response);
-     // idUsu = response.description.usuario.id;
-     // token = response.description.token;
       respuesta = response;
       ons.notification.toast('Registro exitoso!', {
         timeout: 2000
       });
-     /* $("#email").val(''); me parece que esto no va aca jajaj 
-		  $("#passR").val('');
-      $("#telefono").val('');
-      $("#passR2").val('');*/
+     
        $("#selServicio").val('');
        $("#selVehiculo").val('');
        $("#selTaller").val('');
