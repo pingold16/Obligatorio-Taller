@@ -515,6 +515,7 @@ function initMap() {
         var contentString = `<div id="content"><img alt src="http://images.marcelocaiafa.com/${item.imagen}">
         <p>${item.textoExtra}</p>
         <ons-button onclick="calculateAndDisplayRoute(${item.lat}, ${item.lng})">Como ir</ons-button>
+        <ons-button onclick="agregarFavorito(${item.id})">♥</ons-button>
         </div>`;
         console.log([item.lat, item.lng]);
         let infowindow = new google.maps.InfoWindow({
@@ -557,4 +558,27 @@ function calculateAndDisplayRoute(lat, lng) {
       window.alert('Directions request failed due to ' + status);
     }
   });
+}
+
+//Favorito
+function agregarFavorito(idTaller){
+  db.transaction(inicioAgregarFavorito(idTaller), errorGenerico, successGenerico);
+}
+
+function errorGenerico(err){
+  console.log("Error!",err)
+}
+
+function successGenerico(){
+  console.log("Success!")
+}
+
+function inicioAgregarFavorito(tx){
+  tx.executeSql('CREATE TABLE IF NOT EXISTS FAVORITO ("USUARIO","FAVORITO")',[],succcessTablaCreada,errorGenerico);
+}
+
+function succcessTablaCreada(tx){
+  var usuario = sessionStorage.getItem('idUsu');
+  var favorito = $("#apellido").val();
+  tx.executeSql('INSERT INTO FAVORITO VALUES (?,?)',[usuario,favorito],successGenerico,errorGenerico);
 }
