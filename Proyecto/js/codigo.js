@@ -1,5 +1,3 @@
-//var db = window.openDatabase("Obligatorio", 1.0, "Obligatorio taller", 1024*1024*3);
-
 window.fn = {};
 
 window.fn.open = function() {
@@ -21,6 +19,12 @@ document.addEventListener('init', function(event) {
     cargarListaServicio();
   }else if (page.id === 'mapaInsta') {
     cargarListaServicio();
+  }else if(page.id === 'inicio'){
+    if (sessionStorage.getItem('token') != 0){
+      $("#login").hide();
+      $("#contenido").show();
+      $(".contenidoUsu").show();
+    }
   }
 });
 
@@ -573,12 +577,12 @@ function successGenerico(){
   console.log("Success!")
 }
 
-function inicioAgregarFavorito(tx){
-  tx.executeSql('CREATE TABLE IF NOT EXISTS FAVORITO ("USUARIO","FAVORITO")',[],succcessTablaCreada,errorGenerico);
+function inicioAgregarFavorito(tx, idTaller){
+  tx.executeSql('CREATE TABLE IF NOT EXISTS FAVORITO ("USUARIO","FAVORITO")',[],succcessTablaCreada(idTaller),errorGenerico);
 }
 
-function succcessTablaCreada(tx){
+function succcessTablaCreada(tx, idTaller){
   var usuario = sessionStorage.getItem('idUsu');
-  var favorito = $("#apellido").val();
+  var favorito = idTaller;
   tx.executeSql('INSERT INTO FAVORITO VALUES (?,?)',[usuario,favorito],successGenerico,errorGenerico);
 }
