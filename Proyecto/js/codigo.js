@@ -19,8 +19,8 @@ document.addEventListener('init', function(event) {
 
   if (page.id === 'servicio') {
     cargarListaServicio();
-  }else if (page.id === 'mapa') {
-    mostrarMapa();
+  }else if (page.id === 'mapaInsta') {
+    cargarListaServicio();
   }
 });
 
@@ -196,13 +196,12 @@ function mostrarListaVehiculo(){
     success: function(response){
       $("#resultado").empty();
       console.log("success",response);
+      var res = '<ons-select id="selVehiculo" onchange=mostrarDescripcion()>';
       response.description.forEach(function(e,i){
-        $("#resultado").append('<ons-list-item class="table" tappable onclick=mostrarDescripcion("'+ e.id +'")>'+
-            '</div><span class="list-item__title">' + e.matricula +
-            '</span><span class="list-item__subtitle">' + e.descripcion + 
-            '</span></div></ons-list-item>'
-        );
+        res += '<option value="' + e.id + '">' + e.matricula + " " + e.descripcion + '</option>'
       });
+      res += '</ons-select>'
+      $("#resultado").html(res);
     },
     error: function(err,cod,msg){
       console.log("err",err);
@@ -213,7 +212,8 @@ function mostrarListaVehiculo(){
   });
 }
 
-function mostrarDescripcion(id){
+function mostrarDescripcion(){
+  var id = $("#selVehiculo").val();
   $.ajax({
     headers:{
       Authorization: sessionStorage.getItem('token')
@@ -226,18 +226,13 @@ function mostrarDescripcion(id){
     },
     success: function(response){
       console.log("success",response);
-      ons.openActionSheet({
-        title: 'Mantenimiento',
-        cancelable: true,
-        buttons: [
-          response.description.forEach(i => { //No se porque no andaaaaaa
-            i.descripcion;
-          }),
-        {
-          label: 'Cancel',
-          icon: 'md-close'
-        } 
-        ]
+      $("#lista").html('');
+      response.description.forEach(function(e,i){
+        $("#lista").append('<ons-list-item tappable onclick=mostrarDescripcion("'+ e.id +'")>'+
+              '<div class="center"><span class="list-item__title">' + e.descripcion +
+              '</span><span class="list-item__subtitle">U$S' + e.costo + 
+              '</span></div></ons-list-item>'
+          );
       })
     },
     error: function(err,cod,msg){
@@ -270,7 +265,7 @@ function cargarListaServicio(){
         res +='<option value="'+ e.id +'">'+ e.nombre +'</option>';
       });
       res += '</ons-select>';
-      $("#choose-sel").html(res);
+      $(".choose-sel").html(res);
     },
     error: function(err,cod,msg){
       console.log("err",err);
@@ -417,13 +412,15 @@ window.fn.load = function(page) {
 document.addEventListener('init', function(event) {
   var page = event.target;
 
-  if (page.id === 'mapaInsta') {
-    idMapa = 'mapInsta';
-    mostrarMapa();
-  } else if (page.id === 'mapaClick') {
+  if (page.id === 'mapaClick') {
     idMapa = 'mapClick';
-  }
+    mostrarMapa();
+
+   
+  } 
+  
 });
+
 
 var map;
 var idMapa;
@@ -455,7 +452,7 @@ function onError(error) {
 function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
-  map = new google.maps.Map(document.getElementById(idMapa), {
+  map = new google.maps.Map(document.getElementById('mapInsta'), {
     center: {lat: miLat, lng: miLng},
     zoom: 13
   });
@@ -467,7 +464,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
   directionsService.route({
     origin: {lat: miLat, lng: miLng},
     destination: freno,
-    travelMode: 'DRIVING'
+    travelMode: 'WALKING'
   }, function(response, status) {
     if (status === 'OK') {
       directionsDisplay.setDirections(response);

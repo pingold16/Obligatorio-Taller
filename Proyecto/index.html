@@ -44,7 +44,7 @@
                         <ons-icon fixed-width class="list-item__icon" ></ons-icon>
                       </div>
                       <div class="left">
-                        Mapa 
+                        Servicios
                       </div>
                     </ons-list-item>
                     <ons-list-item onclick="fn.load('servicio.html')" tappable>
@@ -115,7 +115,7 @@
               </ons-toolbar>
               <div style="text-align: center;">
                 <div id="choose-selV" style="margin-top: 30px;"></div>
-                <div id="choose-sel" style="text-align: center; margin-top: 30px;"></div>
+                <div class="choose-sel" style="text-align: center; margin-top: 30px;"></div>
                 <div id="choose-selT" style="text-align: center; margin-top: 30px;"></div>
                 <div id='form' style="margin-top: 30px">
                   <p>
@@ -145,12 +145,12 @@
                   </ons-toolbar-button>
                 </div>
                 <div class="center">
-                  Mapa instantáneo
+                  Servicios
                 </div>
               </ons-toolbar>
-
               <div id="mapInsta">
-
+                <div class="choose-sel"></div>
+                <ons-button onclick="mostrarMapa()">Mostrar mapa</ons-button>
               </div>
             </ons-page>
           </template>
@@ -191,6 +191,7 @@
                     <ons-button onclick="mostrarListaVehiculo()">Lista de mis vehiculos</ons-button>
                 </p>
                 <div id="resultado"></div>
+                <div id="lista"></div>
               </div>
             </ons-page>
           </template>
