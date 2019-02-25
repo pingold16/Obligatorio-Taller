@@ -447,9 +447,9 @@ var map;
 var idMapa;
 var miLat;
 var miLng;
-var posCDS = {lat: -34.7970, lng: -56.0671};
-var freno = {lat: -34.8812295, lng: -56.1815571};
 var infowindows = [];
+var directionsService;
+var directionsDisplay;
 
 //var bounds = new google.maps.LatLngBounds();
 
@@ -473,9 +473,9 @@ function onError(error) {
           'message: ' + error.message + '\n');
 }
 
-var directionsService = new google.maps.DirectionsService;
-var directionsDisplay = new google.maps.DirectionsRenderer;
 function initMap() {
+  directionsService = new google.maps.DirectionsService;
+  directionsDisplay = new google.maps.DirectionsRenderer;
   var ser = $("#selServicio").val();
   var markers = [];
   
@@ -514,7 +514,7 @@ function initMap() {
         var item = markers[i];
         var contentString = `<div id="content"><img alt src="http://images.marcelocaiafa.com/${item.imagen}">
         <p>${item.textoExtra}</p>
-        <ons-button onclick="calculateAndDisplayRoute(${[item.lat, item.lng]})">Como ir</ons-button>
+        <ons-button onclick="calculateAndDisplayRoute(${item.lat}, ${item.lng})">Como ir</ons-button>
         </div>`;
         console.log([item.lat, item.lng]);
         let infowindow = new google.maps.InfoWindow({
@@ -549,7 +549,9 @@ function calculateAndDisplayRoute(lat, lng) {
     destination: {lat: lat, lng: lng},
     travelMode: 'DRIVING'
   }, function(response, status) {
+    console.log(response + " " + status)
     if (status === 'OK') {
+      console.log('Entro');
       directionsDisplay.setDirections(response);
     } else {
       window.alert('Directions request failed due to ' + status);
