@@ -449,9 +449,8 @@ var miLat;
 var miLng;
 var posCDS = {lat: -34.7970, lng: -56.0671};
 var freno = {lat: -34.8812295, lng: -56.1815571};
-var marcador = [
-  
-]
+
+//var bounds = new google.maps.LatLngBounds();
 
 function mostrarMapa(){
   navigator.geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy: true});
@@ -476,19 +475,78 @@ function onError(error) {
 function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
-  map = new google.maps.Map(document.getElementById('mapInsta'), {
-    center: {lat: miLat, lng: miLng},
-    zoom: 13
-  });
-  directionsDisplay.setMap(map);
-  calculateAndDisplayRoute(directionsService, directionsDisplay);
+  var ser = $("#selServicio").val();
+  var markers = [];
+  var infowindows = [];
+  $.ajax({
+    headers:{
+      Authorization: sessionStorage.getItem('token')
+    },
+		url: "http://api.marcelocaiafa.com/taller",
+		type: "GET",
+    dataType: "JSON",
+    data:({
+      servicio: ser
+    }),
+		success: function(response){
+      response.description.forEach(e => {
+        markers.push([{
+          id: e.id,
+          textoExtra: e.descripcion,
+          lat: parseFloat(e.lat),
+          lng: parseFloat(e.lng)
+        }]);
+        infowindows.push([e.descripcion]);
+      });
+      console.log(markers);
+      console.log(infowindows);
+      map = new google.maps.Map(document.getElementById('mapInsta'), {
+        center: {lat: miLat, lng: miLng},
+        zoom: 13
+      });
+      marker = new google.maps.Marker({
+        position: {lat: miLat, lng: miLng},
+        map: map,
+        title: "Mi posicion"
+      })
+      for(var i=0; i< markers.length; i++ ){
+        var item = markers[i];
+        var contentString = `<div id="content">
+        <p>${item.textoExtra}</p>
+        <ons-button onclick="ons.notification.alert('id:'+${item.id})">Mostrar Info</ons-button>
+        </div>`;
+  
+        let infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+  
+        let marker = new google.maps.Marker({
+          position: {lat: item.lat, lng: item.lng},
+          map: map,
+          title: item.textoExtra
+        });
+        marker.addListener('click', function() {
+          infowindows.forEach(iw => iw.close());
+          infowindow.open(map, marker);
+        });
+  
+        infowindows.push(infowindow);
+      }
+    },
+    error: function(err,cod,msg){
+      console.log("err",err);
+      console.log("cod",cod);
+      console.log("msg",msg);
+      ons.notification.alert(err.responseJSON.descripcion);
+    }
+	});
 }
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
   directionsService.route({
     origin: {lat: miLat, lng: miLng},
     destination: freno,
-    travelMode: 'WALKING'
+    travelMode: 'DRIVING'
   }, function(response, status) {
     if (status === 'OK') {
       directionsDisplay.setDirections(response);
