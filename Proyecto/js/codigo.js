@@ -515,12 +515,8 @@ function initMap() {
         var item = markers[i];
         var contentString = `<div id="content"><img alt src="http://images.marcelocaiafa.com/${item.imagen}">
         <p>${item.textoExtra}</p>
-<<<<<<< HEAD
         <ons-button onclick="calculateAndDisplayRoute(${item.lat}, ${item.lng})">Como ir</ons-button>
         <ons-button onclick="agregarFavorito(${item.id})">♥</ons-button>
-=======
-        <ons-button onclick="calculateAndDisplayRoute(${item.id})">Como ir</ons-button>
->>>>>>> 5df4f457e321c3c102d1da7f755baeac6cf656fd
         </div>`;
         console.log([item.lat, item.lng]);
         let infowindow = new google.maps.InfoWindow({
@@ -548,8 +544,8 @@ function initMap() {
       ons.notification.alert(err.responseJSON.descripcion);
     }
 	});
- 
 }
+
 function calculateAndDisplayRoute(directionsService,directionsDisplay,markers) {
   while (item.id != markers.id){
    i++; 
