@@ -448,9 +448,8 @@ var idMapa;
 var miLat;
 var miLng;
 var infowindows = [];
-//var directionsService;
-//var directionsDisplay;
-var a;
+var directionsService;
+var directionsDisplay;
 
 //var bounds = new google.maps.LatLngBounds();
 
@@ -473,13 +472,12 @@ function onError(error) {
     alert('code: '    + error.code    + '\n' +
           'message: ' + error.message + '\n');
 }
+
 var markers = [];
 function initMap() {
- var directionsService = new google.maps.DirectionsService;
- var directionsDisplay = new google.maps.DirectionsRenderer;
+  directionsService = new google.maps.DirectionsService;
+  directionsDisplay = new google.maps.DirectionsRenderer;
   var ser = $("#selServicio").val();
-  
-  
   $.ajax({
     headers:{
       Authorization: sessionStorage.getItem('token')
@@ -506,11 +504,12 @@ function initMap() {
         center: {lat: miLat, lng: miLng},
         zoom: 13
       });
-      marker = new google.maps.Marker({
+      letmarker = new google.maps.Marker({
         position: {lat: miLat, lng: miLng},
         map: map,
         title: "Mi posicion"
       })
+      console.log("Mi posicion" + miLat + miLng);
       for(var i=0; i< markers.length; i++ ){
         var item = markers[i];
         var contentString = `<div id="content"><img alt src="http://images.marcelocaiafa.com/${item.imagen}">
@@ -522,7 +521,6 @@ function initMap() {
         let infowindow = new google.maps.InfoWindow({
           content: contentString
         });
-  
         let marker = new google.maps.Marker({
           position: {lat: item.lat, lng: item.lng},
           map: map,
@@ -546,13 +544,10 @@ function initMap() {
 	});
 }
 
-function calculateAndDisplayRoute(directionsService,directionsDisplay,markers) {
-  while (item.id != markers.id){
-   i++; 
-  }
+function calculateAndDisplayRoute(dLat, dLng) {
   directionsService.route({
     origin: {lat: miLat, lng: miLng},      
-      destination: {lat: item.lat, lng: item.lng},    
+    destination: {lat: dLat, lng: dLng},
     travelMode: 'DRIVING'
   }, function(response, status) {
     console.log(response + " " + status)
