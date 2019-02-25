@@ -347,7 +347,7 @@ function registroMantenimiento(){
   var costo = $("#costo").val();
   var fecha = $("#date").val();
   fecha = convertirFecha(fecha);
-  //fecha = moment(fecha).format('DD/MM/YYYY');
+  //fecha = moment(fecha).format('DD/MM/YYYY'); 
   var desc = $("#descripcion").val();
 	$.ajax({
     headers:{
