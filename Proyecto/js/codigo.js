@@ -342,7 +342,7 @@ function registroMantenimiento(){
   var costo = $("#costo").val();
   var fecha = $("#date").val();
   fecha = convertirFecha(fecha);
-  //fecha = moment(fecha).format('DD/MM/YYYY');
+  //fecha = moment(fecha).format('DD/MM/YYYY'); 
   var desc = $("#descripcion").val();
 	$.ajax({
     headers:{
@@ -428,6 +428,9 @@ var miLat;
 var miLng;
 var posCDS = {lat: -34.7970, lng: -56.0671};
 var freno = {lat: -34.8812295, lng: -56.1815571};
+var marcador = [
+  
+]
 
 function mostrarMapa(){
   navigator.geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy: true});
