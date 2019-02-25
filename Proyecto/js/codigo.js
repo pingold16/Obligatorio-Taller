@@ -428,9 +428,13 @@ var miLat;
 var miLng;
 var posCDS = {lat: -34.7970, lng: -56.0671};
 var freno = {lat: -34.8812295, lng: -56.1815571};
-var marcador = [
-  
-]
+//var bounds = new google.maps.LatLngBounds();
+var markers = [
+  ['aca',-34.8812295, -56.1815571],
+  ['a',-34.7970, -56.0671]
+ 
+];
+
 
 function mostrarMapa(){
   navigator.geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy: true});
@@ -452,21 +456,36 @@ function onError(error) {
           'message: ' + error.message + '\n');
 }
 
+
+
+
 function initMap() {
-  var directionsService = new google.maps.DirectionsService;
+  var bounds = new google.maps.LatLngBounds();
+
+  for( i = 0; i < markers.length; i++ ) {
+    var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+    bounds.extend(position);
+    marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        title: markers[i][0]
+    });
+
+
+
   var directionsDisplay = new google.maps.DirectionsRenderer;
   map = new google.maps.Map(document.getElementById('mapInsta'), {
     center: {lat: miLat, lng: miLng},
     zoom: 13
   });
   directionsDisplay.setMap(map);
-  calculateAndDisplayRoute(directionsService, directionsDisplay);
+  //calculateAndDisplayRoute(directionsService, directionsDisplay);
 }
 
-function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+/*function calculateAndDisplayRoute(directionsService, directionsDisplay) {
   directionsService.route({
     origin: {lat: miLat, lng: miLng},
-    destination: freno,
+    destination: marcador,
     travelMode: 'WALKING'
   }, function(response, status) {
     if (status === 'OK') {
@@ -474,5 +493,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
     } else {
       window.alert('Directions request failed due to ' + status);
     }
-  });
+  });*/
 }
+
+
