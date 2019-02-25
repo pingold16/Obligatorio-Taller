@@ -473,9 +473,9 @@ function onError(error) {
           'message: ' + error.message + '\n');
 }
 
+var directionsService = new google.maps.DirectionsService;
+var directionsDisplay = new google.maps.DirectionsRenderer;
 function initMap() {
-  var directionsService = new google.maps.DirectionsService;
-  var directionsDisplay = new google.maps.DirectionsRenderer;
   var ser = $("#selServicio").val();
   var markers = [];
   
@@ -495,7 +495,8 @@ function initMap() {
           id: e.id,
           textoExtra: e.descripcion,
           lat: parseFloat(e.lat),
-          lng: parseFloat(e.lng)
+          lng: parseFloat(e.lng),
+          imagen: e.imagen
         });
       });
       console.log(markers);
@@ -511,11 +512,11 @@ function initMap() {
       })
       for(var i=0; i< markers.length; i++ ){
         var item = markers[i];
-        var contentString = `<div id="content">
+        var contentString = `<div id="content"><img alt src="http://images.marcelocaiafa.com/${item.imagen}">
         <p>${item.textoExtra}</p>
-        <ons-button onclick="ons.notification.alert('id:'+${item.id})">Mostrar Info</ons-button>
+        <ons-button onclick="calculateAndDisplayRoute(${[item.lat, item.lng]})">Como ir</ons-button>
         </div>`;
-  
+        console.log([item.lat, item.lng]);
         let infowindow = new google.maps.InfoWindow({
           content: contentString
         });
@@ -542,10 +543,10 @@ function initMap() {
 	});
 }
 
-function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+function calculateAndDisplayRoute(lat, lng) {
   directionsService.route({
     origin: {lat: miLat, lng: miLng},
-    destination: freno,
+    destination: {lat: lat, lng: lng},
     travelMode: 'DRIVING'
   }, function(response, status) {
     if (status === 'OK') {
