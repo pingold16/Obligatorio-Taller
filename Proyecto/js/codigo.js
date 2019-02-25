@@ -448,8 +448,9 @@ var idMapa;
 var miLat;
 var miLng;
 var infowindows = [];
-var directionsService;
-var directionsDisplay;
+//var directionsService;
+//var directionsDisplay;
+var a;
 
 //var bounds = new google.maps.LatLngBounds();
 
@@ -472,12 +473,12 @@ function onError(error) {
     alert('code: '    + error.code    + '\n' +
           'message: ' + error.message + '\n');
 }
-
+var markers = [];
 function initMap() {
-  directionsService = new google.maps.DirectionsService;
-  directionsDisplay = new google.maps.DirectionsRenderer;
+ var directionsService = new google.maps.DirectionsService;
+ var directionsDisplay = new google.maps.DirectionsRenderer;
   var ser = $("#selServicio").val();
-  var markers = [];
+  
   
   $.ajax({
     headers:{
@@ -514,7 +515,7 @@ function initMap() {
         var item = markers[i];
         var contentString = `<div id="content"><img alt src="http://images.marcelocaiafa.com/${item.imagen}">
         <p>${item.textoExtra}</p>
-        <ons-button onclick="calculateAndDisplayRoute(${item.lat}, ${item.lng})">Como ir</ons-button>
+        <ons-button onclick="calculateAndDisplayRoute(${item.id})">Como ir</ons-button>
         </div>`;
         console.log([item.lat, item.lng]);
         let infowindow = new google.maps.InfoWindow({
@@ -533,6 +534,7 @@ function initMap() {
   
         infowindows.push(infowindow);
       }
+      a = [item.lat, item.lng];
     },
     error: function(err,cod,msg){
       console.log("err",err);
@@ -541,12 +543,15 @@ function initMap() {
       ons.notification.alert(err.responseJSON.descripcion);
     }
 	});
+ 
 }
-
-function calculateAndDisplayRoute(lat, lng) {
+function calculateAndDisplayRoute(directionsService,directionsDisplay,markers) {
+  while (item.id != markers.id){
+   i++; 
+  }
   directionsService.route({
-    origin: {lat: miLat, lng: miLng},
-    destination: {lat: lat, lng: lng},
+    origin: {lat: miLat, lng: miLng},      
+      destination: {lat: item.lat, lng: item.lng},    
     travelMode: 'DRIVING'
   }, function(response, status) {
     console.log(response + " " + status)
