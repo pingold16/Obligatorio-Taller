@@ -449,6 +449,7 @@ var miLat;
 var miLng;
 var posCDS = {lat: -34.7970, lng: -56.0671};
 var freno = {lat: -34.8812295, lng: -56.1815571};
+var infowindows = [];
 
 //var bounds = new google.maps.LatLngBounds();
 
@@ -477,7 +478,7 @@ function initMap() {
   var directionsDisplay = new google.maps.DirectionsRenderer;
   var ser = $("#selServicio").val();
   var markers = [];
-  var infowindows = [];
+  
   $.ajax({
     headers:{
       Authorization: sessionStorage.getItem('token')
@@ -490,13 +491,12 @@ function initMap() {
     }),
 		success: function(response){
       response.description.forEach(e => {
-        markers.push([{
+        markers.push({
           id: e.id,
           textoExtra: e.descripcion,
           lat: parseFloat(e.lat),
           lng: parseFloat(e.lng)
-        }]);
-        infowindows.push([e.descripcion]);
+        });
       });
       console.log(markers);
       console.log(infowindows);
