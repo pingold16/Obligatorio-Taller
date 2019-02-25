@@ -137,6 +137,7 @@ function login(){
           console.log("err",err);
           console.log("cod",cod);
           console.log("msg",msg);
+          $("#btnLogin").html(`Ingresar`);
           ons.notification.alert(err.responseJSON.descripcion);
         }
       });
@@ -146,7 +147,9 @@ function login(){
 //Mi vehiculo
 function despliegaReg(){
   $("#regVehiculo").toggle();
-  //$("#btnMostrar").html('Ocultar');
+  $("#resultado").toggle();
+  $("#lista").toggle();
+  $("#lista").html('');
 }
 
 function registrarVehiculo(){
@@ -196,7 +199,7 @@ function mostrarListaVehiculo(){
     success: function(response){
       $("#resultado").empty();
       console.log("success",response);
-      var res = '<ons-select id="selVehiculo" onchange=mostrarDescripcion()>';
+      var res = '<ons-select id="selVehiculo" style="margin-top: 30px" onchange=mostrarDescripcion()>';
       response.description.forEach(function(e,i){
         res += '<option value="' + e.id + '">' + e.matricula + " " + e.descripcion + '</option>'
       });
@@ -228,7 +231,7 @@ function mostrarDescripcion(){
       console.log("success",response);
       $("#lista").html('');
       response.description.forEach(function(e,i){
-        $("#lista").append('<ons-list-item tappable onclick=mostrarDescripcion("'+ e.id +'")>'+
+        $("#lista").append('<ons-list-item tappable onclick=mostrarMantenimiento("'+ e.id +'")>'+
               '<div class="center"><span class="list-item__title">' + e.descripcion +
               '</span><span class="list-item__subtitle">U$S' + e.costo + 
               '</span></div></ons-list-item>'
@@ -244,8 +247,26 @@ function mostrarDescripcion(){
   });
 }
 
-function showActionSheet(){
-  
+function mostrarMantenimiento(id){
+  $.ajax({
+    headers:{
+      Authorization: sessionStorage.getItem('token')
+    },
+    url: "http://api.marcelocaiafa.com/mantenimiento/" + id,
+    type: "GET",
+    dataType: "JSON",
+    success: function(response){
+      console.log("success",response);
+      var res = response.description;
+      ons.notification.alert(res.servicio.nombre + '<br/>' + res.servicio.descripcion + '<br/>Km: ' + res.mantenimiento.kilometraje + '<br/>Fecha:' + res.mantenimiento.fecha);
+    },
+    error: function(err,cod,msg){
+      console.log("err",err);
+      console.log("cod",cod);
+      console.log("msg",msg);
+      ons.notification.alert(err.responseJSON.descripcion);
+    }
+  });
 }
 
 //Mantenimiento
