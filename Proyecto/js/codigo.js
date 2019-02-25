@@ -431,6 +431,9 @@ var miLat;
 var miLng;
 var posCDS = {lat: -34.7970, lng: -56.0671};
 var freno = {lat: -34.8812295, lng: -56.1815571};
+var marcador = [
+  
+]
 
 function mostrarMapa(){
   navigator.geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy: true});
