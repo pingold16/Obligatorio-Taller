@@ -418,7 +418,7 @@ function convertirFecha(f){
 
 //Mapa
 
-var db = window.openDatabase('bdPrueba','1.0','Base de Datos de Prueba',1024*1024*5);
+var db = window.openDatabase('bdObligatorio','1.0','Base de Datos del Obligatorio',1024*1024*5);
 
 window.fn = {};
 
