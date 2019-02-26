@@ -565,8 +565,11 @@ function calculateAndDisplayRoute(dLat, dLng) {
 }
 
 //Favorito
-function agregarFavorito(idTaller){
-  db.transaction(inicioAgregarFavorito(idTaller), errorGenerico, successGenerico);
+var idTaller;
+
+function agregarFavorito(id){
+  idTaller = id;
+  db.transaction(inicioAgregarFavorito, errorGenerico, successGenerico);
 }
 
 function errorGenerico(err){
@@ -577,12 +580,13 @@ function successGenerico(){
   console.log("Success!")
 }
 
-function inicioAgregarFavorito(tx, idTaller){
-  tx.executeSql('CREATE TABLE IF NOT EXISTS FAVORITO ("USUARIO","FAVORITO")',[],succcessTablaCreada(idTaller),errorGenerico);
+function inicioAgregarFavorito(tx){
+  tx.executeSql('CREATE TABLE IF NOT EXISTS FAVORITO ("USUARIO","FAVORITO")',[],succcessTablaCreada,errorGenerico);
 }
 
-function succcessTablaCreada(tx, idTaller){
+function succcessTablaCreada(tx){
   var usuario = sessionStorage.getItem('idUsu');
   var favorito = idTaller;
   tx.executeSql('INSERT INTO FAVORITO VALUES (?,?)',[usuario,favorito],successGenerico,errorGenerico);
+  //idTaller = 0;
 }
