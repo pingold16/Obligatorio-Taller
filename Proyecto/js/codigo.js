@@ -462,6 +462,8 @@ var miLng;
 var infowindows = [];
 var directionsService;
 var directionsDisplay;
+var dLat =[];
+  var dLng = [];
 
 //var bounds = new google.maps.LatLngBounds();
 
@@ -487,6 +489,7 @@ function onError(error) {
 
 var markers = [];
 function initMap() {
+  
   directionsService = new google.maps.DirectionsService;
   directionsDisplay = new google.maps.DirectionsRenderer;
   var ser = $("#selServicio").val();
@@ -531,6 +534,8 @@ function initMap() {
         <ons-button onclick="agregarFavorito(${item.id})">♥</ons-button>
         </div>`;
         console.log([item.lat, item.lng]);
+        dLat = [item.lat];
+        dLng = [item.lng];
         let infowindow = new google.maps.InfoWindow({
           content: contentString
         });
@@ -546,7 +551,7 @@ function initMap() {
   
         infowindows.push(infowindow);
       }
-      a = [item.lat, item.lng];
+      
     },
     error: function(err,cod,msg){
       console.log("err",err);
@@ -554,18 +559,21 @@ function initMap() {
       console.log("msg",msg);
       ons.notification.alert(err.responseJSON.descripcion);
     }
-	});
+  });
+  directionsDisplay.setMap(map);
+  calculateAndDisplayRoute(directionsService, directionsDisplay,dLat, dLng);
+  
 }
-
-function calculateAndDisplayRoute(dLat, dLng) {
+function calculateAndDisplayRoute(directionsService, directionsDisplay, dLat, dLng) {
+  
   directionsService.route({
     origin: {lat: miLat, lng: miLng},      
-    destination: {lat: dLat, lng: dLng},
+    destination: {lat: parseFloat(dLat), lng: parseFloat(dLng)},
     travelMode: 'DRIVING'
   }, function(response, status) {
-    console.log(response + " " + status)
+    console.log(response , status)
     if (status === 'OK') {
-      console.log('Entro');
+      
       directionsDisplay.setDirections(response);
     } else {
       window.alert('Directions request failed due to ' + status);
