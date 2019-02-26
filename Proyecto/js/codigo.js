@@ -516,7 +516,8 @@ function initMap() {
       console.log("Mi posicion" + miLat + miLng);
       for(var i=0; i< markers.length; i++ ){
         var item = markers[i];
-        var contentString = `<div id="content"><img alt src="http://images.marcelocaiafa.com/${item.imagen}">
+        var contentString = `<div id="content">
+        <img alt src="http://images.marcelocaiafa.com/${item.imagen}" height="100" width="100">
         <p>${item.textoExtra}</p>
         <ons-button onclick="calculateAndDisplayRoute(${item.lat}, ${item.lng})">Como ir</ons-button>
         <ons-button onclick="agregarFavorito(${item.id})">♥</ons-button>
