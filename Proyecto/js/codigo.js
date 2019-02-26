@@ -53,6 +53,14 @@ function cerrarSesion(){
       console.log("err",err);
       console.log("cod",cod);
       console.log("msg",msg);
+      if(ons.notification.confirm(err.responseJSON.descripcion + "<br/>)¿Desea cerrar sesion?")){
+        sessionStorage.setItem('token', 0);
+        $("#bienv").empty();
+        $("#login").show();
+        $("#contenido").hide();
+        $(".contenidoUsu").hide();
+        fn.load('home.html');
+      }
     }
   });
 };
@@ -101,9 +109,9 @@ function registrar(){
       },
       error: function(err,cod,msg){
         console.log("err",err);
-        ons.notification.alert(err.responseJSON.descripcion);
         console.log("cod",cod);
         console.log("msg",msg);
+        ons.notification.alert(err.responseJSON.descripcion);
       }
 		});
   }
