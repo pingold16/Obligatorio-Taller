@@ -531,7 +531,7 @@ function initMap() {
         var contentString = `<div id="content">
         <img alt src="http://images.marcelocaiafa.com/${item.imagen}" height="100" width="100">
         <p>${item.textoExtra}</p>
-        <ons-button onclick="calculateAndDisplayRoute(${item.lat}, ${item.lng})">Como ir</ons-button>
+        <ons-button onclick="comoIr(${item.lat}, ${item.lng})">Como ir</ons-button>
         <ons-button onclick="agregarFavorito(${item.id})">♥</ons-button>
         </div>`;
         console.log([item.lat, item.lng]);
@@ -560,10 +560,13 @@ function initMap() {
       ons.notification.alert(err.responseJSON.descripcion);
     }
   });
+}
+
+function comoIr(dLat, dLng){
   directionsDisplay.setMap(map);
   calculateAndDisplayRoute(dLat, dLng);
-  
 }
+
 function calculateAndDisplayRoute( dLat, dLng) {
   
   directionsService.route({
