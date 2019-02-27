@@ -561,10 +561,10 @@ function initMap() {
     }
   });
   directionsDisplay.setMap(map);
-  calculateAndDisplayRoute(directionsService, directionsDisplay,dLat, dLng);
+  calculateAndDisplayRoute(dLat, dLng);
   
 }
-function calculateAndDisplayRoute(directionsService, directionsDisplay, dLat, dLng) {
+function calculateAndDisplayRoute( dLat, dLng) {
   
   directionsService.route({
     origin: {lat: miLat, lng: miLng},      
