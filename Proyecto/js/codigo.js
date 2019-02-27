@@ -97,6 +97,7 @@ function registrar(){
         ons.notification.toast('Registro exitoso!', {
           timeout: 2000
         });
+        $(".audio")[0].play();
         $("#email").val('');
 		    $("#passR").val('');
         $("#telefono").val('');
@@ -116,7 +117,7 @@ function login(){
   var user = $("#user").val();
   var pass = $("#pass").val();
   $("#btnLogin").html(`<ons-icon size="30px" spin icon="md-spinner"></ons-icon>`);
-  setTimeout(function(){
+  //setTimeout(function(){
       $.ajax({
         url: "http://api.marcelocaiafa.com/login",
         type: "POST",
@@ -141,14 +142,15 @@ function login(){
           $("#btnLogin").html(`Ingresar`);
         },
         error: function(err,cod,msg){
-          console.log("err",err);
+          /*console.log("err",err);
           console.log("cod",cod);
-          console.log("msg",msg);
+          console.log("msg",msg);*/
+          ons.notification.alert(err.JSON.stringify());
           $("#btnLogin").html(`Ingresar`);
           ons.notification.alert(err.responseJSON.descripcion);
         }
       });
-  }, 1000);
+  //}, 1000);
 }
 
 //Mi vehiculo
@@ -185,12 +187,13 @@ function registrarVehiculo(){
       $("#Matricula").val('');
       $("#Marca").val('');
       $("#Modelo").val('');
+      $(".audio")[0].play();
     },
     error: function(err,cod,msg){
       console.log("err",err);
-      ons.notification.alert(err.responseJSON.descripcion);
       console.log("cod",cod);
       console.log("msg",msg);
+      ons.notification.alert(err.responseJSON.descripcion);
     }
   });
 }
@@ -324,9 +327,9 @@ function cargarVehiculos(){
     },
     error: function(err,cod,msg){
       console.log("err",err);
-      ons.notification.alert(err.responseJSON.descripcion);
       console.log("cod",cod);
       console.log("msg",msg);
+      ons.notification.alert(err.responseJSON.descripcion);
     }
   });
 }
@@ -355,9 +358,9 @@ function cargarTaller(){
     },
     error: function(err,cod,msg){
       console.log("err",err);
-      ons.notification.alert(err.responseJSON.descripcion);
       console.log("cod",cod);
       console.log("msg",msg);
+      ons.notification.alert(err.responseJSON.descripcion);
     }
   });
 }
@@ -524,11 +527,12 @@ function initMap() {
       console.log("Mi posicion" + miLat + miLng);
       for(var i=0; i< markers.length; i++ ){
         var item = markers[i];
+        var nomT = item.textoExtra;
         var contentString = `<div id="content">
         <img alt src="http://images.marcelocaiafa.com/${item.imagen}" height="100" width="100">
         <p>${item.textoExtra}</p>
         <ons-button onclick="comoIr(${item.lat}, ${item.lng})">Como ir</ons-button>
-        <ons-button onclick="agregarFavorito(${item.id})">♥</ons-button>
+        <ons-button onclick="agregarFavorito(${item.id}, '${nomT}')">♥</ons-button>
         </div>`;
         console.log([item.lat, item.lng]);
       
@@ -582,9 +586,11 @@ function calculateAndDisplayRoute( dLat, dLng) {
 
 //Favorito
 var idTaller;
+var nomTaller;
 
-function agregarFavorito(id){
+function agregarFavorito(id, nom){
   idTaller = id;
+  nomTaller = nom;
   db.transaction(inicioAgregarFavorito, errorGenerico, successGenerico);
 }
 
@@ -597,13 +603,14 @@ function successGenerico(){
 }
 
 function inicioAgregarFavorito(tx){
-  tx.executeSql('CREATE TABLE IF NOT EXISTS FAVORITO ("USUARIO","FAVORITO")',[],succcessTablaCreada,errorGenerico);
+  tx.executeSql('CREATE TABLE IF NOT EXISTS FAV ("USUARIO","FAVORITO","NOMBRE")',[],succcessTablaCreada,errorGenerico);
 }
 
 function succcessTablaCreada(tx){
   var usuario = sessionStorage.getItem('idUsu');
   var favorito = idTaller;
-  tx.executeSql('INSERT INTO FAVORITO VALUES (?,?)',[usuario,favorito],successGenerico,errorGenerico);
+  var taller = nomTaller;
+  tx.executeSql('INSERT INTO FAV VALUES (?,?,?)',[usuario,favorito,taller],successGenerico,errorGenerico);
   //idTaller = 0;
 }
 
@@ -613,21 +620,24 @@ function listFav(){
 
 function inicioListar(tx)
 {
-  tx.executeSql('SELECT * FROM FAVORITO',[],successListfav,errorGenerico);
+  tx.executeSql('SELECT * FROM FAV',[],successListfav,errorGenerico);
 }
 
 function successListfav(tx, results){
   $("#mapInsta").empty();
-  for(var i = 0; i < results.rows.length; i++)
+  var e = results.rows;
+  for(var i = 0; i < e.length; i++)
   {
-    var fav = results.rows.item(i);
-    console.log(fav);
-    $("#mapInsta").append(
-      `<ons-card>
-        <div class="title">
-          ${fav.USUARIO} ${fav.FAVORITO}
-        </div>
-      </ons-card>`
-    )
+    if (e.item(i).USUARIO == sessionStorage.getItem("idUsu")) {
+      var fav = results.rows.item(i);
+      console.log(fav);
+      $("#mapInsta").append(
+        `<ons-card>
+          <div class="title">
+            ${fav.NOMBRE}
+          </div>
+        </ons-card>`
+      )
+    }
   }
 }
