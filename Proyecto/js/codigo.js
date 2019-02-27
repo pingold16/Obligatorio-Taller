@@ -20,10 +20,12 @@ document.addEventListener('init', function(event) {
   }else if (page.id === 'mapaInsta') {
     cargarListaServicio();
   }else if(page.id === 'inicio'){
-    if (sessionStorage.getItem('token') != 0){
+    if (sessionStorage.getItem('token') != null){
       $("#login").hide();
       $("#contenido").show();
       $(".contenidoUsu").show();
+    }else{
+      $(".contenidoUsu").hide();
     }
   }
 });
@@ -42,7 +44,7 @@ function cerrarSesion(){
       ons.notification.toast(response.description, {
         timeout: 2000
       });
-      sessionStorage.setItem('token', 0);
+      sessionStorage.clear();
       $("#bienv").empty();
       $("#login").show();
       $("#contenido").hide();
@@ -53,14 +55,7 @@ function cerrarSesion(){
       console.log("err",err);
       console.log("cod",cod);
       console.log("msg",msg);
-      if(ons.notification.confirm(err.responseJSON.descripcion + "<br/>)¿Desea cerrar sesion?")){
-        sessionStorage.setItem('token', 0);
-        $("#bienv").empty();
-        $("#login").show();
-        $("#contenido").hide();
-        $(".contenidoUsu").hide();
-        fn.load('home.html');
-      }
+      ons.notification.confirm(err.responseJSON.descripcion);
     }
   });
 };
@@ -396,6 +391,7 @@ function registroMantenimiento(){
 		success: function(response){
       console.log("success",response);
       respuesta = response;
+      $(".audio")[0].play();
       ons.notification.toast('Registro exitoso!', {
         timeout: 2000
       });
