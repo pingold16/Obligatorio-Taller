@@ -125,6 +125,7 @@ function login(){
           email: user,
           password: pass
         }),
+        timeout: 3000,
         success: function(response){
           console.log("success",response);
           respuesta = response;
@@ -146,6 +147,7 @@ function login(){
           console.log("msg",msg);
           $("#btnLogin").html(`Ingresar`);
           ons.notification.alert(err.responseJSON.descripcion);
+          alert(JSON.stringify(err));
         }
       });
   }, 1000);
