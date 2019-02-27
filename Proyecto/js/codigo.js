@@ -468,6 +468,7 @@ var dLat =[];
 //var bounds = new google.maps.LatLngBounds();
 
 function mostrarMapa(){
+  
   navigator.geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy: true});
 }
 
@@ -534,8 +535,7 @@ function initMap() {
         <ons-button onclick="agregarFavorito(${item.id})">♥</ons-button>
         </div>`;
         console.log([item.lat, item.lng]);
-        dLat = [item.lat];
-        dLng = [item.lng];
+      
         let infowindow = new google.maps.InfoWindow({
           content: contentString
         });
@@ -606,4 +606,29 @@ function succcessTablaCreada(tx){
   var favorito = idTaller;
   tx.executeSql('INSERT INTO FAVORITO VALUES (?,?)',[usuario,favorito],successGenerico,errorGenerico);
   //idTaller = 0;
+}
+
+function listFav(){
+  db.transaction(inicioListar, errorGenerico, successGenerico);
+}
+
+function inicioListar(tx)
+{
+  tx.executeSql('SELECT * FROM FAVORITO',[],successListfav,errorGenerico);
+}
+
+function successListfav(tx, results){
+  $("#mapInsta").empty();
+  for(var i = 0; i < results.rows.length; i++)
+  {
+    var fav = results.rows.item(i);
+    console.log(fav);
+    $("#mapInsta").append(
+      `<ons-card>
+        <div class="title">
+          ${fav.USUARIO} ${fav.FAVORITO}
+        </div>
+      </ons-card>`
+    )
+  }
 }
